@@ -1,1 +1,44 @@
-<p>product-list works!</p>
+<div class="search-bar">
+    <input [(ngModel)]="searchTerm" (input)="search()" placeholder="Buscar producto..." />
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Fecha Liberación</th>
+            <th>Fecha Revisión</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let product of filteredProducts | slice:0:pageSize">
+            <td><img [src]="product.logo" alt="logo" width="50" /></td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.date_release }}</td>
+            <td>{{ product.date_revision }}</td>
+            <td>
+                <!-- Menú contextual -->
+                <button (click)="edit(product.id)">Editar</button>
+                <button (click)="confirmDelete(product.id)">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <p>{{ filteredProducts.length }} resultados</p>
+    <select [(ngModel)]="pageSize" (change)="changePageSize(pageSize)">
+        <option [value]="5">5</option>
+        <option [value]="10">10</option>
+        <option [value]="20">20</option>
+    </select>
+</div>
+
+<!-- Modal de eliminación -->
+<app-product-delete-modal *ngIf="showModal" [productName]="selectedProductId || ''" (confirm)="onDeleteConfirmed()"
+    (cancel)="showModal = false">
+</app-product-delete-modal>

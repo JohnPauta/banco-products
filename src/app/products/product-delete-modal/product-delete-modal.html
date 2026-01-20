@@ -1,1 +1,5 @@
-<p>product-delete-modal works!</p>
+<div class="modal">
+    <p>¿Estás seguro de eliminar el producto {{ productName }}?</p>
+    <button (click)="cancel.emit()">Cancelar</button>
+    <button (click)="confirm.emit()">Eliminar</button>
+</div>

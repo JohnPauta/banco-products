@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.modal button {
+    margin: 0 8px;
+}
+
+.modal p {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: #333;
+}
