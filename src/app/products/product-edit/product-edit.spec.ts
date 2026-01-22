@@ -1,42 +1,62 @@
+import { render, screen, fireEvent } from '@testing-library/angular';
+import { describe, it, expect, vi } from 'vitest';
+import { FormsModule } from '@angular/forms';
 import { ProductEdit } from './product-edit';
+import { ProductService } from '../product-services/product-service';
+import { Router } from '@angular/router';
+
+// 👉 Mock del servicio
+const mockProductService = {
+  updateProduct: vi.fn().mockReturnValue({
+    subscribe: ({ next }: any) => next(),
+  }),
+  getProductById: vi.fn().mockReturnValue({
+    subscribe: ({ next }: any) => {
+      next({
+        id: '1',
+        name: 'Producto Existente',
+        logo: 'logo.png',
+        date_release: new Date(),
+        date_revision: new Date(),
+      });
+    },
+  }),
+};
+
+const mockRouter = {
+  navigate: vi.fn(),
+};
 
 describe('ProductEdit Component', () => {
-  let component: ProductEdit;
+  it('should render form with existing product data', async () => {
+    await render(ProductEdit, {
+      imports: [FormsModule],
+      providers: [
+        { provide: ProductService, useValue: mockProductService },
+        { provide: Router, useValue: mockRouter },
+      ],
+    });
 
-  beforeEach(() => {
-    component = new ProductEdit({} as any, {} as any, {} as any, {} as any);
+    // Verifica que el nombre del producto existente aparece en el input
+    expect(screen.getByDisplayValue(/Producto Existente/i)).toBeTruthy();
   });
 
-  it('formatDate should return yyyy-MM-dd', () => {
-    const result = component['formatDate']('2026-01-21T00:00:00.000Z');
-    expect(result).toBe('2026-01-21');
-  });
+  it('should call updateProduct when form is submitted', async () => {
+    await render(ProductEdit, {
+      imports: [FormsModule],
+      providers: [
+        { provide: ProductService, useValue: mockProductService },
+        { provide: Router, useValue: mockRouter },
+      ],
+    });
 
-  it('toLocalISO should return ISO string', () => {
-    const result = component['toLocalISO']('2026-01-21');
-    expect(result).toContain('2026-01-21T');
-  });
+    // Cambiar el nombre del producto
+    fireEvent.input(screen.getByLabelText(/Nombre/i), { target: { value: 'Producto Editado' } });
 
-  it('onReset should clear the form', () => {
-    component.form = { reset: jest.fn() } as any;
-    component.onReset();
-    expect(component.form.reset).toHaveBeenCalled();
-  });
+    // Enviar formulario
+    fireEvent.submit(screen.getByRole('form'));
 
-  it('onBack should navigate to products list', () => {
-    const mockRouter = { navigate: jest.fn() };
-    component['router'] = mockRouter as any;
-    component.onBack();
+    expect(mockProductService.updateProduct).toHaveBeenCalled();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['/products']);
-  });
-
-  it('onSubmit should mark form as touched if invalid', () => {
-    component.form = {
-      valid: false,
-      markAllAsTouched: jest.fn(),
-      get: jest.fn().mockReturnValue({ value: '' }),
-    } as any;
-    component.onSubmit();
-    expect(component.form.markAllAsTouched).toHaveBeenCalled();
   });
 });

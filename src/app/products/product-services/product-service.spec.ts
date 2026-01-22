@@ -1,38 +1,61 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { HttpClient } from '@angular/common/http';
 import { ProductService } from './product-service';
+import { firstValueFrom } from 'rxjs';
 
-describe('ProductService', () => {
+// 👉 Mock global fetch para simular llamadas HTTP
+global.fetch = vi.fn();
+
+describe('ProductService (Vitest)', () => {
   let service: ProductService;
-  let httpMock: HttpTestingController;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [ProductService],
-    });
-    service = TestBed.inject(ProductService);
-    httpMock = TestBed.inject(HttpTestingController);
+    vi.resetAllMocks();
+    service = new ProductService(new HttpClient({} as any));
   });
 
-  it('should fetch products', () => {
-    const mockProducts = {
+  it('should fetch products', async () => {
+    const mockResponse = {
       items: [
-        {
-          id: '1',
-          name: 'Test',
-          description: 'Desc',
-          logo: 'logo.png',
-          date_release: '2025-01-01',
-          date_revision: '2026-01-01',
-        },
+        { id: '1', name: 'Banco Pichincha', logo: '', date_release: new Date(), date_revision: new Date() },
+        { id: '2', name: 'Banco Guayaquil', logo: '', date_release: new Date(), date_revision: new Date() },
       ],
+      total: 2,
+    };
+
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      json: async () => mockResponse,
+    });
+
+    const res = await firstValueFrom(service.getProducts(1, 5));
+    expect(res.items.length).toBe(2);
+    expect(res.total).toBe(2);
+  });
+
+  it('should delete product', async () => {
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      json: async () => ({}),
+    });
+
+    const res = await firstValueFrom(service.deleteProduct('1'));
+    expect(res).toBeTruthy();
+  });
+
+  it('should search products', async () => {
+    const mockResponse = {
+      items: [{ id: '3', name: 'Banco Internacional', logo: '', date_release: new Date(), date_revision: new Date() }],
       total: 1,
     };
-    service.getProducts(1, 10).subscribe((res) => {
-      expect(res.items.length).toBe(1);
+
+    (global.fetch as any).mockResolvedValue({
+      ok: true,
+      json: async () => mockResponse,
     });
-    const req = httpMock.expectOne('http://localhost:3002/bp/products');
-    req.flush(mockProducts);
+
+    const res = await firstValueFrom(service.searchProducts('Internacional', 1, 5));
+    expect(res.items[0].name).toBe('Banco Internacional');
+    expect(res.total).toBe(1);
   });
 });

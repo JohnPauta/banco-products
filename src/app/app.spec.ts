@@ -1,23 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { render, screen } from '@testing-library/angular';
+import { describe, it, expect } from 'vitest';
 import { App } from './app';
 
-describe('App', () => {
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [App],
-    }).compileComponents();
-  });
-
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(App);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+describe('App component', () => {
+  it('should create the app', async () => {
+    const { fixture } = await render(App);
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
   it('should render title', async () => {
-    const fixture = TestBed.createComponent(App);
-    await fixture.whenStable();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, banco-products');
+    await render(App);
+    // Busca el texto en el DOM renderizado
+    expect(screen.getByText(/Hello, banco-products/i)).toBeTruthy();
   });
 });
