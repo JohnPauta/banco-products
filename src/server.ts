@@ -19,7 +19,7 @@ const angularApp = new AngularNodeAppEngine();
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
-    index: 'index.html', // ✅ permite servir index.html como fallback
+    index: 'index.html',
   }),
 );
 

@@ -5,7 +5,6 @@ import { ProductEdit } from './product-edit';
 import { ProductService } from '../product-services/product-service';
 import { Router } from '@angular/router';
 
-// 👉 Mock del servicio
 const mockProductService = {
   updateProduct: vi.fn().mockReturnValue({
     subscribe: ({ next }: any) => next(),

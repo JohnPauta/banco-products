@@ -3,8 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ProductService } from './product-service';
 import { firstValueFrom } from 'rxjs';
 
-// 👉 Mock global fetch para simular llamadas HTTP
-global.fetch = vi.fn();
+globalThis.fetch = vi.fn();
 
 describe('ProductService (Vitest)', () => {
   let service: ProductService;
@@ -23,7 +22,7 @@ describe('ProductService (Vitest)', () => {
       total: 2,
     };
 
-    (global.fetch as any).mockResolvedValue({
+    (globalThis.fetch as any).mockResolvedValue({
       ok: true,
       json: async () => mockResponse,
     });
@@ -34,7 +33,7 @@ describe('ProductService (Vitest)', () => {
   });
 
   it('should delete product', async () => {
-    (global.fetch as any).mockResolvedValue({
+    (globalThis.fetch as any).mockResolvedValue({
       ok: true,
       json: async () => ({}),
     });
@@ -49,7 +48,7 @@ describe('ProductService (Vitest)', () => {
       total: 1,
     };
 
-    (global.fetch as any).mockResolvedValue({
+    (globalThis.fetch as any).mockResolvedValue({
       ok: true,
       json: async () => mockResponse,
     });

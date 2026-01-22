@@ -91,14 +91,14 @@ export class ProductList implements OnInit {
   }
 
   edit(id: string): void {
-    this.activeDropdownId = null; // 👈 cerrar menú al editar
+    this.activeDropdownId = null; 
     this.router.navigate(['/products/edit', id]);
   }
 
   onDeleteClick(product: Product) {
     this.selectedProductId = product.id;
     this.selectedProductName = product.name;
-    this.activeDropdownId = null; // 👈 cerrar menú al abrir modal
+    this.activeDropdownId = null;
     this.showDeleteModal = true;
   }
 
@@ -122,14 +122,14 @@ export class ProductList implements OnInit {
   }
 
   onEdit(productId: string) {
-    this.activeDropdownId = null; // 👈 cerrar menú al editar
+    this.activeDropdownId = null;
     this.router.navigate(['/products/edit', productId]);
   }
 
   onDelete(product: Product) {
     this.selectedProductId = product.id;
     this.selectedProductName = product.name;
-    this.activeDropdownId = null; // 👈 cerrar menú al abrir modal
+    this.activeDropdownId = null;
     this.showDeleteModal = true;
   }
 
@@ -211,7 +211,6 @@ export class ProductList implements OnInit {
     this.router.navigate(['/products/add']);
   }
 
-  // 👇 Listener global para cerrar el menú al hacer clic fuera
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;

@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../product-services/product-service';
 import { Router } from '@angular/router';
 
-// 👉 Mock del servicio
 const mockProductService = {
   addProduct: vi.fn().mockReturnValue({
     subscribe: ({ next }: any) => next(),
@@ -26,7 +25,6 @@ describe('ProductAdd Component', () => {
       ],
     });
 
-    // Verifica que los inputs existen
     expect(screen.getByLabelText(/Nombre/i)).toBeTruthy();
     expect(screen.getByLabelText(/Logo/i)).toBeTruthy();
     expect(screen.getByLabelText(/Fecha de lanzamiento/i)).toBeTruthy();
@@ -41,12 +39,10 @@ describe('ProductAdd Component', () => {
       ],
     });
 
-    // Rellenar campos
     fireEvent.input(screen.getByLabelText(/Nombre/i), { target: { value: 'Nuevo Producto' } });
     fireEvent.input(screen.getByLabelText(/Logo/i), { target: { value: 'logo.png' } });
     fireEvent.input(screen.getByLabelText(/Fecha de lanzamiento/i), { target: { value: '2026-01-22' } });
 
-    // Enviar formulario
     fireEvent.submit(screen.getByRole('form'));
 
     expect(mockProductService.addProduct).toHaveBeenCalled();

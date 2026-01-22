@@ -45,7 +45,7 @@ export class ProductAdd {
         name: this.form.get('name')?.value || '',
         description: this.form.get('description')?.value || '',
         logo: this.form.get('logo')?.value || '',
-        // 👇 Convertimos a ISO respetando la fecha local
+        //Convertir a ISO respetando la fecha local
         date_release: releaseValue ? this.toLocalISO(releaseValue) : '',
         date_revision: revisionValue ? this.toLocalISO(revisionValue) : '',
       };

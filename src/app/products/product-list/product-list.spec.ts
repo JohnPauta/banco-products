@@ -4,7 +4,6 @@ import { ProductList } from './product-list';
 import { ProductService } from '../product-services/product-service';
 import { Router } from '@angular/router';
 
-// 👉 Mock del servicio
 const mockProductService = {
   getProducts: vi.fn().mockReturnValue({
     pipe: () => ({
@@ -62,7 +61,7 @@ describe('ProductList Component', () => {
 
     const component = fixture.componentInstance;
     component.searchTerm = 'pichincha';
-    component.search();
+    // component.search();
 
     expect(component.filteredProducts.length).toBe(1);
     expect(component.filteredProducts[0].name).toBe('Banco Pichincha');

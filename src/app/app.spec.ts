@@ -10,7 +10,6 @@ describe('App component', () => {
 
   it('should render title', async () => {
     await render(App);
-    // Busca el texto en el DOM renderizado
     expect(screen.getByText(/Hello, banco-products/i)).toBeTruthy();
   });
 });
