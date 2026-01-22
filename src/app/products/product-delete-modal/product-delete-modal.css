@@ -15,8 +15,10 @@
     padding: 1.5rem;
     border-radius: 10px;
     width: 320px;
+    max-width: 90%;
     text-align: center;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease;
 }
 
 .modal p {
@@ -25,25 +27,64 @@
     color: #333;
 }
 
+/* Contenedor de botones */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 button {
-    margin: 0.5rem;
+    flex: 1;
+    min-width: 100px;
     padding: 8px 16px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
     transition: background 0.2s ease;
+    font-weight: 500;
 }
 
 button:hover {
     opacity: 0.9;
 }
 
-button:first-of-type {
+button.cancel {
     background-color: #ccc;
     color: #333;
 }
 
-button:last-of-type {
+button.confirm {
     background-color: #e74c3c;
     color: #fff;
+}
+
+/* Animación */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Responsivo */
+@media screen and (max-width: 480px) {
+    .modal {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .modal-actions {
+        flex-direction: column;
+    }
+
+    .modal-actions button {
+        width: 100%;
+    }
 }

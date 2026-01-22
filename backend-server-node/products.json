@@ -1,0 +1,98 @@
+[
+  {
+    "id": "12121",
+    "name": "Tarjeta Visa",
+    "description": "Esta es una descripción de prueba",
+    "logo": "https://images.icon-icons.com/3261/PNG/512/visa_logo_icon_206647.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "13243",
+    "name": "Prestamos Banco Pichincha, editado",
+    "description": "Es un préstamo, editado",
+    "logo": "https://brandemia.org/sites/default/files/inline/images/logo_banco_pichincha_portada.jpg",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20001",
+    "name": "Cuenta Ahorros Banco Guayaquil",
+    "description": "Cuenta de ahorros con beneficios digitales",
+    "logo": "https://seeklogo.com/images/B/banco-guayaquil-logo-0F3F6A8A1E-seeklogo.com.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20002",
+    "name": "Tarjeta Mastercard Black",
+    "description": "Tarjeta premium con beneficios exclusivos",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Mastercard_logo.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20003",
+    "name": "Seguro de Vida",
+    "description": "Cobertura completa para toda la familia",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20004",
+    "name": "Crédito Hipotecario",
+    "description": "Financiamiento para compra de vivienda",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135714.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20005",
+    "name": "Tarjeta Débito Banco Pichincha",
+    "description": "Tarjeta de débito para compras seguras",
+    "logo": "https://brandemia.org/sites/default/files/inline/images/logo_banco_pichincha_portada.jpg",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20006",
+    "name": "Inversión a Plazo Fijo",
+    "description": "Producto de inversión con tasa fija",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135716.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20007",
+    "name": "Seguro Vehicular",
+    "description": "Protección completa para tu automóvil",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135717.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20008",
+    "name": "Tarjeta Prepago",
+    "description": "Tarjeta recargable para compras online",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135718.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20009",
+    "name": "Cuenta Corriente",
+    "description": "Cuenta corriente empresarial",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135719.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  },
+  {
+    "id": "20010",
+    "name": "Seguro Médico",
+    "description": "Cobertura médica nacional e internacional",
+    "logo": "https://cdn-icons-png.flaticon.com/512/3135/3135720.png",
+    "date_release": "2026-01-22T05:00:00.000Z",
+    "date_revision": "2027-01-22T05:00:00.000Z"
+  }
+]

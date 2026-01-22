@@ -23,7 +23,7 @@ export class ProductAdd {
     private fb: FormBuilder,
     private productService: ProductService,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -38,14 +38,16 @@ export class ProductAdd {
 
   onSubmit() {
     if (this.form.valid) {
+      const releaseValue = this.form.get('date_release')?.value;
+      const revisionValue = this.form.get('date_revision')?.value;
       const product: Product = {
         id: this.form.get('id')?.value || '',
         name: this.form.get('name')?.value || '',
         description: this.form.get('description')?.value || '',
         logo: this.form.get('logo')?.value || '',
-        // Convertir fechas a string ISO (yyyy-MM-dd)
-        date_release: new Date(this.form.get('date_release')?.value),
-        date_revision: new Date(this.form.get('date_revision')?.value),
+        // 👇 Convertimos a ISO respetando la fecha local
+        date_release: releaseValue ? this.toLocalISO(releaseValue) : '',
+        date_revision: revisionValue ? this.toLocalISO(revisionValue) : '',
       };
 
       this.productService.addProduct(product).subscribe({
@@ -72,4 +74,12 @@ export class ProductAdd {
   onBack(): void {
     this.router.navigate(['/products']);
   }
+
+  // Helper para convertir yyyy-MM-dd a ISO sin desfase
+  private toLocalISO(dateString: string): string {
+    const [year, month, day] = dateString.split('-').map(Number);
+    const d = new Date(year, month - 1, day); // fecha en zona local
+    return d.toISOString();
+  }
+
 }

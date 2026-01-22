@@ -38,7 +38,7 @@ export class ProductList implements OnInit {
     private router: Router,
     private zone: NgZone,
     private cdRef: ChangeDetectorRef,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {}
 
   ngOnInit(): void {
@@ -60,17 +60,21 @@ export class ProductList implements OnInit {
       )
       .subscribe({
         next: (res) => {
-          this.products = res.items.map((p) => ({
-            ...p,
-            id: p.id.trim(),
-            logo: p.logo?.trim() || 'assets/default-logo.png',
-            date_release: new Date(p.date_release),
-            date_revision: new Date(p.date_revision),
-          }));
-          this.totalProducts = res.total;
-          this.currentPage = page;
-          this.totalPages = Math.max(1, Math.ceil(this.totalProducts / this.pageSize));
-          this.cdRef.detectChanges();
+          this.zone.run(() => {
+            this.products = [
+              ...res.items.map((p) => ({
+                ...p,
+                id: p.id.trim(),
+                logo: p.logo?.trim() || 'assets/default-logo.png',
+                date_release: new Date(p.date_release),
+                date_revision: new Date(p.date_revision),
+              })),
+            ];
+            this.totalProducts = res.total;
+            this.currentPage = page;
+            this.totalPages = Math.max(1, Math.ceil(this.totalProducts / this.pageSize));
+            this.cdRef.markForCheck();
+          });
         },
         error: (err) => {
           alert('Error al cargar productos: ' + err.message);
@@ -78,19 +82,12 @@ export class ProductList implements OnInit {
         },
       });
   }
-
   onPageChange(page: number) {
     this.loadProducts(page);
   }
 
   changePageSize(size: number): void {
     this.pageSize = size;
-  }
-
-  search(): void {
-    this.filteredProducts = this.products.filter((p) =>
-      p.name.toLowerCase().includes(this.searchTerm.toLowerCase()),
-    );
   }
 
   edit(id: string): void {
@@ -136,26 +133,78 @@ export class ProductList implements OnInit {
     this.showDeleteModal = true;
   }
 
-  onSearch() {
+  onSearch(): void {
     if (!this.searchTerm.trim()) {
       this.loadProducts(1);
       return;
     }
+    this.isLoading = true;
+    this.productService
+      .searchProducts(this.searchTerm, this.currentPage, this.pageSize)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.cdRef.detectChanges();
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          this.zone.run(() => {
+            this.products = [
+              ...res.items.map((p) => ({
+                ...p,
+                id: p.id.trim(),
+                logo: p.logo?.trim().replace(/\s+/g, ''),
+                date_release: new Date(p.date_release),
+                date_revision: new Date(p.date_revision),
+              })),
+            ];
+            this.totalProducts = res.total;
+            this.totalPages = Math.max(1, Math.ceil(this.totalProducts / this.pageSize));
+            this.cdRef.markForCheck();
+          });
+        },
+        error: (err) => {
+          alert('Error en búsqueda: ' + err.message);
+          this.cdRef.detectChanges();
+        },
+      });
+  }
 
-    this.productService.searchProducts(this.searchTerm, this.currentPage, this.pageSize).subscribe({
-      next: (res) => {
-        this.products = res.items.map((p) => ({
-          ...p,
-          id: p.id.trim(),
-          logo: p.logo?.trim().replace(/\s+/g, ''),
-          date_release: new Date(p.date_release),
-          date_revision: new Date(p.date_revision),
-        }));
-        this.totalProducts = res.total;
-        this.totalPages = Math.max(1, Math.ceil(this.totalProducts / this.pageSize));
-      },
-      error: (err) => alert('Error en búsqueda: ' + err.message),
-    });
+  onResetSearch(): void {
+    this.searchTerm = '';
+    this.isLoading = true;
+    this.productService
+      .getProducts(1, this.pageSize)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+          this.cdRef.detectChanges();
+        }),
+      )
+      .subscribe({
+        next: (res) => {
+          this.zone.run(() => {
+            this.products = [
+              ...res.items.map((p) => ({
+                ...p,
+                id: p.id.trim(),
+                logo: p.logo?.trim() || 'assets/default-logo.png',
+                date_release: new Date(p.date_release),
+                date_revision: new Date(p.date_revision),
+              })),
+            ];
+            this.totalProducts = res.total;
+            this.currentPage = 1;
+            this.totalPages = Math.max(1, Math.ceil(this.totalProducts / this.pageSize));
+            this.cdRef.markForCheck();
+          });
+        },
+        error: (err) => {
+          alert('Error al resetear búsqueda: ' + err.message);
+          this.cdRef.detectChanges();
+        },
+      });
   }
 
   onAddProduct(): void {

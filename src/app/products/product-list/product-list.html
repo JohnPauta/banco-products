@@ -2,18 +2,16 @@
     <div class="table-card">
         <h2>Lista de Productos Financieros</h2>
 
-        <!-- Barra de búsqueda + botón agregar -->
         <div class="search-add-bar">
             <div class="search-bar">
                 <input [(ngModel)]="searchTerm" placeholder="Buscar producto..." />
                 <button (click)="onSearch()">Buscar</button>
+                <button (click)="onResetSearch()">Reiniciar Búsqueda</button>
             </div>
 
             <button class="add-button" (click)="onAddProduct()">Agregar</button>
         </div>
 
-
-        <!-- Tabla de productos -->
         <table class="product-table">
             <thead>
                 <tr>
@@ -37,7 +35,6 @@
                     </td>
                 </tr>
 
-                <!-- Fila normal para cada producto -->
                 <tr *ngFor="let product of products">
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
@@ -57,7 +54,7 @@
         </table>
 
         <!-- Barra de paginación -->
-        <div class="pagination-bar"  *ngIf="!isLoading">
+        <div class="pagination-bar" *ngIf="!isLoading">
             <div class="result-count">
                 {{ totalProducts }} Resultados
             </div>
@@ -82,6 +79,5 @@
     <p>Cargando productos...</p>
 </div>
 
-<!-- Modal de eliminación -->
 <app-product-delete-modal [productName]="selectedProductName" [visible]="showDeleteModal" (confirm)="confirmDelete()"
     (cancel)="cancelDelete()" />
