@@ -1,44 +1,87 @@
-<div class="search-bar">
-    <input [(ngModel)]="searchTerm" (input)="search()" placeholder="Buscar producto..." />
+<div class="page-background">
+    <div class="table-card">
+        <h2>Lista de Productos Financieros</h2>
+
+        <!-- Barra de búsqueda + botón agregar -->
+        <div class="search-add-bar">
+            <div class="search-bar">
+                <input [(ngModel)]="searchTerm" placeholder="Buscar producto..." />
+                <button (click)="onSearch()">Buscar</button>
+            </div>
+
+            <button class="add-button" (click)="onAddProduct()">Agregar</button>
+        </div>
+
+
+        <!-- Tabla de productos -->
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Logo</th>
+                    <th>Fecha Liberación</th>
+                    <th>Fecha Revisión</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Fila de mensaje cuando no hay productos -->
+                <tr *ngIf="products.length === 0">
+                    <td colspan="7" class="no-data-row">
+                        <div class="no-data-content">
+                            <span class="no-data-icon">📦</span>
+                            <p>No hay productos disponibles</p>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Fila normal para cada producto -->
+                <tr *ngFor="let product of products">
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td> <img [src]="product.logo" alt="logo" class="logo-img" /> </td>
+                    <td>{{ product.date_release | date:'yyyy-MM-dd' }}</td>
+                    <td>{{ product.date_revision | date:'yyyy-MM-dd' }}</td>
+                    <td class="actions">
+                        <button (click)="toggleDropdown(product.id)">⋮</button>
+                        <div *ngIf="activeDropdownId === product.id" class="dropdown">
+                            <button (click)="onEdit(product.id)">Editar</button>
+                            <button (click)="onDelete(product)">Eliminar</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Barra de paginación -->
+        <div class="pagination-bar"  *ngIf="!isLoading">
+            <div class="result-count">
+                {{ totalProducts }} Resultados
+            </div>
+            <div class="page-controls">
+                <button (click)="onPageChange(currentPage - 1)" [disabled]="currentPage === 1">Anterior</button>
+                <span>Página {{ currentPage }} de {{ totalPages }}</span>
+                <button (click)="onPageChange(currentPage + 1)"
+                    [disabled]="currentPage * pageSize >= totalProducts">Siguiente</button>
+            </div>
+
+            <div class="page-size-selector">
+                <select [(ngModel)]="pageSize" (change)="onPageChange(1)">
+                    <option *ngFor="let size of [5, 10, 20]" [value]="size">{{ size }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Logo</th>
-            <th>Nombre</th>
-            <th>Descripción</th>
-            <th>Fecha Liberación</th>
-            <th>Fecha Revisión</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let product of filteredProducts | slice:0:pageSize">
-            <td><img [src]="product.logo" alt="logo" width="50" /></td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.description }}</td>
-            <td>{{ product.date_release }}</td>
-            <td>{{ product.date_revision }}</td>
-            <td>
-                <!-- Menú contextual -->
-                <button (click)="edit(product.id)">Editar</button>
-                <button (click)="confirmDelete(product.id)">Eliminar</button>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-<div class="footer">
-    <p>{{ filteredProducts.length }} resultados</p>
-    <select [(ngModel)]="pageSize" (change)="changePageSize(pageSize)">
-        <option [value]="5">5</option>
-        <option [value]="10">10</option>
-        <option [value]="20">20</option>
-    </select>
+<div *ngIf="isLoading" class="loading-screen">
+    <div class="spinner"></div>
+    <p>Cargando productos...</p>
 </div>
 
 <!-- Modal de eliminación -->
-<app-product-delete-modal *ngIf="showModal" [productName]="selectedProductId || ''" (confirm)="onDeleteConfirmed()"
-    (cancel)="showModal = false">
-</app-product-delete-modal>
+<app-product-delete-modal [productName]="selectedProductName" [visible]="showDeleteModal" (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()" />

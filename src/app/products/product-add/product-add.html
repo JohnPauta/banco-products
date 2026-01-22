@@ -1,1 +1,76 @@
-<p>product-add works!</p>
+<div class="form-card">
+    <h2>Agregar Producto Financiero</h2>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- ID -->
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input id="id" formControlName="id" />
+            <div *ngIf="form.get('id')?.invalid && form.get('id')?.touched" class="error">
+                ID requerido (3-10 caracteres)
+            </div>
+        </div>
+
+        <!-- Nombre -->
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input id="name" formControlName="name" />
+            <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="error">
+                Nombre requerido (5-100 caracteres)
+            </div>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea id="description" formControlName="description"></textarea>
+            <div *ngIf="form.get('description')?.invalid && form.get('description')?.touched" class="error">
+                Descripción requerida (10-200 caracteres)
+            </div>
+        </div>
+
+        <!-- Logo -->
+        <div class="form-group">
+            <label for="logo">Logo (URL)</label>
+            <input id="logo" formControlName="logo" />
+            <div *ngIf="form.get('logo')?.invalid && form.get('logo')?.touched" class="error">
+                Logo requerido
+            </div>
+        </div>
+
+        <!-- Fecha de liberación -->
+        <div class="form-group">
+            <label for="date_release">Fecha de Liberación</label>
+            <input type="date" id="date_release" formControlName="date_release" />
+            <div *ngIf="form.get('date_release')?.errors?.['releaseDateInvalid'] && form.get('date_release')?.touched"
+                class="error">La fecha debe ser igual o mayor a hoy</div>
+        </div>
+
+        <!-- Fecha de revisión -->
+        <div class="form-group">
+            <label for="date_revision">Fecha de Revisión</label>
+            <input type="date" id="date_revision" formControlName="date_revision" />
+            <div *ngIf="form.get('date_revision')?.errors?.['revisionDateInvalid'] && form.get('date_revision')?.touched"
+                class="error">La fecha debe ser exactamente un año después de la liberación</div>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-actions">
+            <button type="button" class="btn-secondary" (click)="onBack()">← Regresar</button>
+            <button type="submit" class="btn-primary">Agregar</button>
+            <button type="button" class="btn-secondary" (click)="onReset()">Reiniciar</button>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="showErrorModal" class="modal-backdrop">
+    <div class="modal error-modal">
+        <h2>Error al agregar producto</h2>
+        <ul>
+            <li *ngFor="let key of objectKeys(serverErrors)">
+                <strong>{{ key }}:</strong> {{ serverErrors[key] }}
+            </li>
+        </ul>
+        <button (click)="showErrorModal = false">Cerrar</button>
+    </div>
+</div>

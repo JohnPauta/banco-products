@@ -9,8 +9,20 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getProducts(): Observable<{ data: Product[] }> {
-    return this.http.get<{ data: Product[] }>(this.apiUrl);
+  getProducts(page: number, size: number): Observable<{ items: Product[]; total: number }> {
+    return this.http.get<{ items: Product[]; total: number }>(
+      `${this.apiUrl}?page=${page}&size=${size}`,
+    );
+  }
+
+  searchProducts(
+    term: string,
+    page: number,
+    size: number,
+  ): Observable<{ items: Product[]; total: number }> {
+    return this.http.get<{ items: Product[]; total: number }>(
+      `${this.apiUrl}/search?term=${term}&page=${page}&size=${size}`,
+    );
   }
 
   getProductById(id: string): Observable<Product> {
@@ -21,15 +33,15 @@ export class ProductService {
     return this.http.get<boolean>(`${this.apiUrl}/verification/${id}`);
   }
 
-  addProduct(product: Product): Observable<any> {
-    return this.http.post(this.apiUrl, product);
+  addProduct(product: Product): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(this.apiUrl, product);
   }
 
-  updateProduct(id: string, product: Product): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, product);
+  updateProduct(id: string, product: Product): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(`${this.apiUrl}/${id}`, product);
   }
 
-  deleteProduct(id: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deleteProduct(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 }

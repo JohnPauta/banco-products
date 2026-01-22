@@ -6,8 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:banco-products": "node dist/banco-products/server/server.mjs"
+    "serve:ssr:banco-products": "node dist/banco-products/server/server.mjs",
+    "test:frontend": "jest --coverage --config=jest.config.js",
+    "test:watch": "jest --watch --config=jest.config.js",
+    "test": "jest --coverage --config=jest.config.js"
   },
   "prettier": {
     "printWidth": 100,
@@ -37,7 +39,8 @@
     "express": "^5.2.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "zone.js": "^0.16.0"
   },
   "devDependencies": {
     "@angular/build": "^21.1.0",
@@ -47,8 +50,9 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^20.17.19",
     "jest": "^30.2.0",
-    "jest-preset-angular": "^16.0.0",
+    "jest-environment-jsdom": "^30.2.0",
     "jsdom": "^27.1.0",
+    "ts-jest": "^29.4.6",
     "typescript": "~5.9.2",
     "vitest": "^4.0.8"
   },

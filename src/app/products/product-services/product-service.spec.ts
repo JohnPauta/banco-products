@@ -17,7 +17,7 @@ describe('ProductService', () => {
 
   it('should fetch products', () => {
     const mockProducts = {
-      data: [
+      items: [
         {
           id: '1',
           name: 'Test',
@@ -27,9 +27,10 @@ describe('ProductService', () => {
           date_revision: '2026-01-01',
         },
       ],
+      total: 1,
     };
-    service.getProducts().subscribe((res) => {
-      expect(res.data.length).toBe(1);
+    service.getProducts(1, 10).subscribe((res) => {
+      expect(res.items.length).toBe(1);
     });
     const req = httpMock.expectOne('http://localhost:3002/bp/products');
     req.flush(mockProducts);

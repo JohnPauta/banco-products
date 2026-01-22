@@ -190,3 +190,34 @@ main {
     margin-block: 1.5rem;
   }
 }
+
+.app-header {
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 1rem;
+  background-color: #003366;
+  color: white;
+  text-align: center;
+}
+
+/* Fondo gris claro y centrado */
+.app-wrapper {
+  background-color: #f2f2f2;
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Opcional: aplicar a body si quieres que el fondo cubra incluso fuera del router */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+
+

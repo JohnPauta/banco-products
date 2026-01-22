@@ -1,0 +1,49 @@
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    /* shorthand para top:0, left:0, right:0, bottom:0 */
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    /* asegura que esté encima de la tabla */
+}
+
+.modal {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal p {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+button {
+    margin: 0.5rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+button:first-of-type {
+    background-color: #ccc;
+    color: #333;
+}
+
+button:last-of-type {
+    background-color: #e74c3c;
+    color: #fff;
+}
